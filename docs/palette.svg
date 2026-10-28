@@ -1,11 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="124" height="12" viewBox="0 0 124 12" role="img" aria-label="blutarche studio palette: #0A0A0C, #121216, #34343F, #8C8C94, #F2EFEA, #5A4FC0, #7C70F5, #F0A8D0">
-<title>blutarche studio palette: #0A0A0C, #121216, #34343F, #8C8C94, #F2EFEA, #5A4FC0, #7C70F5, #F0A8D0</title>
-<rect x="0.5" y="0.5" width="11" height="11" fill="#0A0A0C" stroke="rgba(128,128,128,0.4)"/>
-<rect x="16.5" y="0.5" width="11" height="11" fill="#121216" stroke="rgba(128,128,128,0.4)"/>
-<rect x="32.5" y="0.5" width="11" height="11" fill="#34343F" stroke="rgba(128,128,128,0.4)"/>
-<rect x="48.5" y="0.5" width="11" height="11" fill="#8C8C94" stroke="rgba(128,128,128,0.4)"/>
-<rect x="64.5" y="0.5" width="11" height="11" fill="#F2EFEA" stroke="rgba(128,128,128,0.4)"/>
-<rect x="80.5" y="0.5" width="11" height="11" fill="#5A4FC0" stroke="rgba(128,128,128,0.4)"/>
-<rect x="96.5" y="0.5" width="11" height="11" fill="#7C70F5" stroke="rgba(128,128,128,0.4)"/>
-<rect x="112.5" y="0.5" width="11" height="11" fill="#F0A8D0" stroke="rgba(128,128,128,0.4)"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="224" height="28" viewBox="0 0 224 28"><title>blutarche studio palette</title><clipPath id="r"><rect width="224" height="28" rx="4"/></clipPath><g clip-path="url(#r)"><rect x="0" width="28" height="28" fill="#0A0A0C"/><rect x="28" width="28" height="28" fill="#121216"/><rect x="56" width="28" height="28" fill="#34343F"/><rect x="84" width="28" height="28" fill="#8C8C94"/><rect x="112" width="28" height="28" fill="#F2EFEA"/><rect x="140" width="28" height="28" fill="#5A4FC0"/><rect x="168" width="28" height="28" fill="#7C70F5"/><rect x="196" width="28" height="28" fill="#F0A8D0"/></g><rect x=".5" y=".5" width="223" height="27" rx="3.5" fill="none" stroke="rgba(128,128,128,.4)"/></svg>

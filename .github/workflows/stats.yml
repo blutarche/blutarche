@@ -14,22 +14,22 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v7
-        with:
-          python-version: "3.12"
-
-      - run: python scripts/build.py
+      - uses: yoshi389111/github-profile-3d-contrib@7d95e7d4cdc028dd1e1cbd957d65f35efb12ae39 # v0.9.3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ${{ github.repository_owner }}
+          SETTING_JSON: scripts/3d-settings.json
+
+      - run: python3 scripts/recolor.py profile-3d-contrib/light.svg profile-3d-contrib/dark.svg
 
       - name: Commit and push if changed
         run: |
-          git add README.md
+          git add profile-3d-contrib/light.svg profile-3d-contrib/dark.svg
           if git diff --cached --quiet; then
             echo "nothing to commit"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
-          git commit -m "chore: refresh stats"
+          git commit -m "chore: refresh contribution calendar"
           git push
