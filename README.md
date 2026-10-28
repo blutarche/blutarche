@@ -1,3 +1,5 @@
+hi, i'm aik. i make stuff.
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="profile-3d-contrib/dark.svg">
   <img src="profile-3d-contrib/light.svg" alt="blutarche's contributions over the past year as a 3D calendar">
