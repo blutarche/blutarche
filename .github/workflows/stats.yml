@@ -20,7 +20,7 @@ jobs:
           USERNAME: ${{ github.repository_owner }}
           SETTING_JSON: scripts/3d-settings.json
 
-      - run: python3 scripts/recolor.py profile-3d-contrib/light.svg profile-3d-contrib/dark.svg
+      - run: python3 scripts/restyle.py profile-3d-contrib/light.svg profile-3d-contrib/dark.svg
 
       - name: Commit and push if changed
         run: |
