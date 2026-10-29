@@ -14,6 +14,10 @@ serves the SVGs through camo <img>, which cannot fetch external fonts) read
 from the fonts/ directory next to this script. A file that already carries the
 injected fonts keeps them, so reruns are byte-identical.
 
+Calendar bars (days at contribution level 1-4) get a one-shot CSS entrance whose
+delay follows the day's screen x, so the year sweeps in left to right. Reduced
+motion swaps the rise for an opacity-only fade. Level 0 floor tiles stay static.
+
 Exits non-zero, writing nothing, if any file's markup is not what the
 generator is known to emit.
 """
@@ -40,9 +44,19 @@ FONT_FACES = [
 GENERATOR_FONT_RULE = '* { font-family: "Ubuntu", "Helvetica", "Arial", sans-serif; }'
 INJECTED_FONT_MARKER = '@font-face { font-family: "Inter";'
 
+SWEEP_MS = 1000
+BAR_CSS = """@keyframes bar-rise { from { opacity: 0; translate: 0 16px; } }
+@keyframes bar-fade { from { opacity: 0; } }
+.bar { animation: bar-rise 500ms cubic-bezier(0.23, 1, 0.32, 1) var(--d) both; }
+@media (prefers-reduced-motion: reduce) { .bar { animation: bar-fade 200ms cubic-bezier(0.23, 1, 0.32, 1) both; } }"""
+
 SLICE_RE = re.compile(r'(style="fill: )#[0-9A-Fa-f]{6}(;" class="stroke-bg")')
 LEGEND_RECT_RE = re.compile(r'(fill=")#[0-9A-Fa-f]{6}(" class="stroke-bg")')
 TEXT_RE = re.compile(r"<text[^>]*>([^<]*)</text>")
+DAY_GROUP_RE = re.compile(
+    r'<g transform="translate\((-?\d+(?:\.\d+)?) -?\d+(?:\.\d+)?\)">'
+    r'(?=<rect stroke="none"[^>]*class="cont-top-([0-4])")'
+)
 
 
 class RestyleError(Exception):
@@ -113,6 +127,28 @@ def restyle_fonts(svg: str, css: str) -> str:
     raise RestyleError("neither the generator font rule nor the injected fonts found (generator markup changed?)")
 
 
+def animate_bars(svg: str) -> str:
+    if BAR_CSS in svg:
+        return svg
+    days = list(DAY_GROUP_RE.finditer(svg))
+    if not days:
+        raise RestyleError("no calendar day groups found (generator markup changed?)")
+    if svg.count("</style>") != 1:
+        raise RestyleError("expected exactly one </style>")
+
+    xs = [float(m.group(1)) for m in days]
+    low = min(xs)
+    span = (max(xs) - low) or 1
+
+    def tag(m: re.Match[str]) -> str:
+        if m.group(2) == "0":
+            return m.group(0)
+        delay = round((float(m.group(1)) - low) / span * SWEEP_MS)
+        return f'{m.group(0)[:-1]} class="bar" style="--d:{delay}ms">'
+
+    return DAY_GROUP_RE.sub(tag, svg).replace("</style>", f"\n{BAR_CSS}</style>")
+
+
 def main(paths: list[str]) -> int:
     if not paths:
         print("usage: restyle.py FILE.svg [FILE.svg ...]", file=sys.stderr)
@@ -131,7 +167,7 @@ def main(paths: list[str]) -> int:
         try:
             with open(path, encoding="utf-8", newline="") as fh:
                 original = fh.read()
-            results[path] = restyle_fonts(recolor(original, theme), css)
+            results[path] = animate_bars(restyle_fonts(recolor(original, theme), css))
         except (OSError, RestyleError) as err:
             print(f"restyle: {path}: {err}", file=sys.stderr)
             failed = True
